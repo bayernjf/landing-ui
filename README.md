@@ -54,6 +54,26 @@ Releases are git tags (`v1.0.0`, `v1.1.0`, ...). Sites pin a tag explicitly —
 bumping the shared package never silently changes a live site. To upgrade a
 site, change the tag in its `package.json` and run `npm install`.
 
+### Release checklist (run on every change to this repo)
+
+Because consuming sites pull from GitHub by tag, an unpublished change is an
+invisible change. Follow this every time:
+
+1. Make the change (new icon path, token, primitive).
+2. Bump the `version` in `package.json` (semver).
+3. Commit — one logical change per commit, English Conventional Commits.
+4. Tag the release: `git tag -a v1.2.0 -m "..."`.
+5. Push branch and tag: `git push origin main v1.2.0`.
+
+Then, to roll the bump into a site, edit that site's `package.json` tag and
+reinstall:
+
+```bash
+npm install
+```
+
+Never forget step 4 — without a new tag, no site will ever see the change.
+
 ## Rules
 
 - Icons are inline SVG paths (Lucide), never emoji, never a runtime icon lib.
