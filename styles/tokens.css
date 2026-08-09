@@ -1,0 +1,131 @@
+/**
+ * @bay/landing-ui — shared design tokens for *-landing sites.
+ *
+ * Usage: import once in the site's global stylesheet, then override
+ * --lui-accent (and optionally surfaces) with the site's brand color.
+ *
+ *   @import "@bay/landing-ui/styles/tokens.css";
+ *   :root { --lui-accent: #3b82f6; --lui-accent-hover: #60a5fa; }
+ *
+ * Tokens are prefixed with --lui- so they never collide with a site's
+ * own Tailwind @theme or CSS variables.
+ */
+
+:root {
+  /* Typography: system-first stack, zero webfont requests.
+     CJK fallbacks are explicit so Chinese copy renders consistently. */
+  --lui-font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+    sans-serif;
+  --lui-font-mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas,
+    monospace;
+
+  /* Radii */
+  --lui-radius-sm: 0.5rem;
+  --lui-radius-md: 0.75rem;
+  --lui-radius-lg: 1rem;
+  --lui-radius-xl: 1.5rem;
+  --lui-radius-pill: 9999px;
+
+  /* Elevation: pick ONE of border or shadow, never stack all three */
+  --lui-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --lui-shadow-md: 0 4px 12px -2px rgb(0 0 0 / 0.12);
+  --lui-shadow-lg: 0 12px 32px -8px rgb(0 0 0 / 0.18);
+
+  /* Motion: restrained defaults, interruptible-friendly */
+  --lui-duration-fast: 150ms;
+  --lui-duration-base: 200ms;
+  --lui-duration-slow: 350ms;
+  --lui-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Brand accent — the ONE variable every site overrides */
+  --lui-accent: #10b981;
+  --lui-accent-hover: #34d399;
+  --lui-accent-fg: #ffffff;
+
+  /* Surfaces (dark-first; light sites override these) */
+  --lui-surface: rgb(255 255 255 / 0.04);
+  --lui-surface-hover: rgb(255 255 255 / 0.07);
+  --lui-border: rgb(255 255 255 / 0.1);
+}
+
+/* ---------- Shared component primitives ---------- */
+
+.lui-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--lui-radius-pill);
+  font-family: var(--lui-font-sans);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform var(--lui-duration-base) var(--lui-ease-out),
+    background-color var(--lui-duration-base) var(--lui-ease-out),
+    color var(--lui-duration-base) var(--lui-ease-out);
+}
+
+.lui-btn:active {
+  transform: scale(0.97);
+}
+
+.lui-btn-primary {
+  background: var(--lui-accent);
+  color: var(--lui-accent-fg);
+  box-shadow: var(--lui-shadow-sm);
+}
+
+.lui-btn-primary:hover {
+  background: var(--lui-accent-hover);
+}
+
+.lui-btn-ghost {
+  background: transparent;
+  color: var(--lui-accent);
+}
+
+.lui-btn-ghost:hover {
+  text-decoration: underline;
+}
+
+.lui-card {
+  background: var(--lui-surface);
+  border: 1px solid var(--lui-border);
+  border-radius: var(--lui-radius-lg);
+  transition: background-color var(--lui-duration-base) var(--lui-ease-out),
+    border-color var(--lui-duration-base) var(--lui-ease-out);
+}
+
+.lui-card:hover {
+  background: var(--lui-surface-hover);
+}
+
+.lui-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: var(--lui-radius-pill);
+  background: var(--lui-surface);
+  border: 1px solid var(--lui-border);
+  font-family: var(--lui-font-sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+/* Reduced motion: shared primitives go static */
+@media (prefers-reduced-motion: reduce) {
+  .lui-btn,
+  .lui-card {
+    transition: none;
+  }
+
+  .lui-btn:active {
+    transform: none;
+  }
+}

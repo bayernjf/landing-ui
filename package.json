@@ -1,0 +1,21 @@
+{
+  "name": "@bay/landing-ui",
+  "version": "1.0.0",
+  "description": "Shared design system for *-landing sites: design tokens and Astro components",
+  "type": "module",
+  "license": "Apache-2.0",
+  "exports": {
+    "./styles/tokens.css": "./styles/tokens.css",
+    "./components/Icon.astro": "./components/Icon.astro"
+  },
+  "files": [
+    "styles",
+    "components",
+    "README.md"
+  ],
+  "keywords": [
+    "design-system",
+    "astro",
+    "landing-page"
+  ]
+}
