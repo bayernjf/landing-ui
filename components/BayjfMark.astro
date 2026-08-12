@@ -1,0 +1,47 @@
+---
+interface Props {
+  size?: number | string;
+  class?: string;
+}
+
+const { size = 18, class: className } = Astro.props;
+
+// Gradient ids must be unique per instance — the mark renders in both the
+// nav and the footer of the same page, and duplicate ids make the second
+// instance inherit the first one's gradient.
+const uid = Math.random().toString(36).slice(2, 8);
+
+// Two non-obvious choices in the markup below:
+//   display:inline-block — Tailwind preflight sets `svg { display: block }`,
+//     which would push the sibling label onto its own line.
+//   stroke="currentColor" on the hairline — tracks the surrounding text, so the
+//     border reads correctly on light and dark surfaces with no theme plumbing.
+---
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width={size}
+  height={size}
+  viewBox="0 0 32 32"
+  aria-hidden="true"
+  class={className}
+  style="display:inline-block;flex-shrink:0;vertical-align:-0.18em"
+>
+  <defs>
+    <linearGradient id={`bayBg-${uid}`} x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#12354f" />
+      <stop offset="100%" stop-color="#08131d" />
+    </linearGradient>
+    <linearGradient id={`bayInk-${uid}`} x1="8" y1="8" x2="26" y2="26" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#7dd3fc" />
+      <stop offset="60%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+  </defs>
+  <rect width="32" height="32" rx="7" fill={`url(#bayBg-${uid})`} />
+  <rect x="0.5" y="0.5" width="31" height="31" rx="6.5" fill="none" stroke="currentColor" stroke-opacity="0.12" />
+  <g fill="none" stroke={`url(#bayInk-${uid})`} stroke-width="3.4" stroke-linecap="round">
+    <path d="M11.5 6.5 C 11 13, 11 19, 10 22.6 C 9.2 25.4, 5.6 26.2, 4.4 24" />
+    <path d="M11.3 9.5 C 16.5 7.3, 22.5 7.5, 27.3 9.8" />
+    <path d="M11.2 15 C 15.5 13.6, 20 13.8, 23.8 15.6" opacity="0.55" />
+  </g>
+</svg>

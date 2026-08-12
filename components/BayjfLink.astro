@@ -1,0 +1,28 @@
+---
+import BayjfMark from './BayjfMark.astro';
+
+interface Props {
+  /** Appearance classes from the host site — colors, sizing, hover, visibility. */
+  class?: string;
+  /** Mark size in px. 18 in nav, 16 in footer reads well at both scales. */
+  size?: number | string;
+  /** Visible label. */
+  label?: string;
+}
+
+const { class: className, size = 18, label = 'BayJF', ...rest } = Astro.props;
+
+// No `display` is set on the anchor on purpose: host sites toggle this link
+// with utilities like `hidden sm:block`, and an inline style would outrank
+// them. The mark aligns via vertical-align, valid in inline and flex flow.
+---
+<a
+  href="https://bayjf.com"
+  target="_blank"
+  rel="noopener noreferrer"
+  class={className}
+  {...rest}
+>
+  <BayjfMark size={size} />
+  <span style="margin-left:0.375rem">{label}</span>
+</a>

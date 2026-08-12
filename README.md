@@ -10,6 +10,8 @@ framework-free Astro components. One source of truth instead of copy-pasted
 | ------ | ---------- |
 | `@bay/landing-ui/styles/tokens.css` | `--lui-*` design tokens (type, radii, elevation, motion, accent) + shared primitives (`.lui-btn`, `.lui-card`, `.lui-eyebrow`) |
 | `@bay/landing-ui/components/Icon.astro` | Inline Lucide SVG icon component (~45 icons), zero dependencies |
+| `@bay/landing-ui/components/BayjfMark.astro` | The BayJF brand mark ("Shoreline Hook"), inline SVG, geometry identical to bayjf.com |
+| `@bay/landing-ui/components/BayjfLink.astro` | `BayjfMark` + "BayJF" label, linked to bayjf.com — the portfolio backlink every site carries |
 
 ## Install
 
@@ -47,6 +49,25 @@ import Icon from '@bay/landing-ui/components/Icon.astro';
 
 <Icon name="Globe" size={16} />
 ```
+
+### BayJF backlink
+
+Replaces the text-only `<a href="https://bayjf.com">BayJF</a>` in each site's
+nav and footer. Pass the site's own appearance classes through `class` — the
+component sets no `display`, so utilities like `hidden sm:block` keep working
+and nothing is restyled:
+
+```astro
+---
+import BayjfLink from '@bay/landing-ui/components/BayjfLink.astro';
+---
+
+<BayjfLink size={18} class="text-sm text-gray-400 transition hover:text-white" />
+```
+
+Use `size={18}` in nav and `size={16}` in footer. Below ~16px the three
+stroked arcs merge and the mark stops being legible. The border hairline is
+`currentColor` at 12%, so it adapts to light and dark surfaces on its own.
 
 ## Versioning
 
