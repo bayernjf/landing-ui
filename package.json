@@ -1,6 +1,6 @@
 {
   "name": "@bay/landing-ui",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Shared design system for *-landing sites: design tokens and Astro components",
   "type": "module",
   "license": "Apache-2.0",
@@ -8,7 +8,8 @@
     "./styles/tokens.css": "./styles/tokens.css",
     "./components/Icon.astro": "./components/Icon.astro",
     "./components/BayjfMark.astro": "./components/BayjfMark.astro",
-    "./components/BayjfLink.astro": "./components/BayjfLink.astro"
+    "./components/BayjfLink.astro": "./components/BayjfLink.astro",
+    "./components/StarOnGithub.astro": "./components/StarOnGithub.astro"
   },
   "files": [
     "styles",

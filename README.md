@@ -12,6 +12,7 @@ framework-free Astro components. One source of truth instead of copy-pasted
 | `@bay/landing-ui/components/Icon.astro` | Inline Lucide SVG icon component (~45 icons), zero dependencies |
 | `@bay/landing-ui/components/BayjfMark.astro` | The BayJF brand mark ("Shoreline Hook"), inline SVG, geometry identical to bayjf.com |
 | `@bay/landing-ui/components/BayjfLink.astro` | `BayjfMark` + "BayJF" label, linked to bayjf.com — the portfolio backlink every site carries |
+| `@bay/landing-ui/components/StarOnGithub.astro` | GitHub mark + "Star on GitHub" label as one pill, linked to that site's product repo |
 
 ## Install
 
@@ -68,6 +69,25 @@ import BayjfLink from '@bay/landing-ui/components/BayjfLink.astro';
 Use `size={18}` in nav and `size={16}` in footer. Below ~16px the three
 stroked arcs merge and the mark stops being legible. The border hairline is
 `currentColor` at 12%, so it adapts to light and dark surfaces on its own.
+
+### Star on GitHub
+
+Sits immediately to the right of `BayjfLink` in the nav, and replaces any
+GitHub icon/link the footer used to carry, so both read the same. `href` is the
+site's own product repo:
+
+```astro
+---
+import StarOnGithub from '@bay/landing-ui/components/StarOnGithub.astro';
+---
+
+<StarOnGithub href="https://github.com/bayernjf/splity" />
+```
+
+The pill styles itself from `currentColor` (surface at 8%, hairline at 14%,
+both lifting on hover), so it inherits the surrounding nav or footer text color
+and needs no tokens. Pass `class` only for spacing or responsive visibility —
+e.g. `class="hidden sm:inline-flex"` to match a hidden-on-mobile `BayjfLink`.
 
 ## Versioning
 

@@ -1,0 +1,75 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  /** Repository to star, e.g. https://github.com/bayernjf/splity */
+  href: string;
+  /** Extra appearance classes from the host site; appended to the pill. */
+  class?: string;
+  /** Icon size in px. 15 in nav, 14 in footer matches the label's cap height. */
+  size?: number | string;
+  /** Visible label. */
+  label?: string;
+}
+
+const { href, class: className = '', size = 15, label = 'Star on GitHub', ...rest } = Astro.props;
+
+// Colors derive from `currentColor` (same trick as BayjfMark's hairline), so the
+// pill inherits whatever nav or footer text color the host site uses and needs
+// no design tokens — only 2 of the 14 sites import tokens.css.
+---
+<a
+  href={href}
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label={label}
+  class:list={['lui-star', className]}
+  {...rest}
+>
+  <Icon name="Github" size={size} />
+  <span>{label}</span>
+</a>
+
+<style>
+  .lui-star {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.375rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    white-space: nowrap;
+    text-decoration: none;
+    color: inherit;
+    background: color-mix(in srgb, currentColor 8%, transparent);
+    border: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+    transition:
+      background-color 200ms ease-out,
+      border-color 200ms ease-out,
+      transform 200ms ease-out;
+  }
+
+  .lui-star:hover {
+    background: color-mix(in srgb, currentColor 16%, transparent);
+    border-color: color-mix(in srgb, currentColor 24%, transparent);
+    transform: scale(1.05);
+  }
+
+  .lui-star:active {
+    transform: scale(0.97);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lui-star {
+      transition: none;
+    }
+
+    .lui-star:hover,
+    .lui-star:active {
+      transform: none;
+    }
+  }
+</style>
