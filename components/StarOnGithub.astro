@@ -4,7 +4,7 @@ import Icon from './Icon.astro';
 interface Props {
   /** Repository to star, e.g. https://github.com/bayernjf/splity */
   href: string;
-  /** Extra appearance classes from the host site; appended to the pill. */
+  /** Appearance classes from the host site — display, color, visibility. */
   class?: string;
   /** Icon size in px. 15 in nav, 14 in footer matches the label's cap height. */
   size?: number | string;
@@ -14,9 +14,11 @@ interface Props {
 
 const { href, class: className = '', size = 15, label = 'Star on GitHub', ...rest } = Astro.props;
 
-// Colors derive from `currentColor` (same trick as BayjfMark's hairline), so the
-// pill inherits whatever nav or footer text color the host site uses and needs
-// no design tokens — only 2 of the 14 sites import tokens.css.
+// The pill's box lives on the inner span, not the anchor, for the same reason
+// BayjfLink sets no `display`: scoped component CSS outranks a single-class
+// utility, so a `display` here would defeat `hidden sm:inline-flex` on the host
+// side. Leaving the anchor's display and color alone keeps those utilities in
+// charge, and the span still tints itself from the inherited currentColor.
 ---
 <a
   href={href}
@@ -26,12 +28,18 @@ const { href, class: className = '', size = 15, label = 'Star on GitHub', ...res
   class:list={['lui-star', className]}
   {...rest}
 >
-  <Icon name="Github" size={size} />
-  <span>{label}</span>
+  <span class="lui-star-pill">
+    <Icon name="Github" size={size} />
+    <span>{label}</span>
+  </span>
 </a>
 
 <style>
   .lui-star {
+    text-decoration: none;
+  }
+
+  .lui-star-pill {
     display: inline-flex;
     align-items: center;
     gap: 0.375rem;
@@ -42,8 +50,6 @@ const { href, class: className = '', size = 15, label = 'Star on GitHub', ...res
     letter-spacing: -0.01em;
     line-height: 1;
     white-space: nowrap;
-    text-decoration: none;
-    color: inherit;
     background: color-mix(in srgb, currentColor 8%, transparent);
     border: 1px solid color-mix(in srgb, currentColor 14%, transparent);
     transition:
@@ -52,23 +58,23 @@ const { href, class: className = '', size = 15, label = 'Star on GitHub', ...res
       transform 200ms ease-out;
   }
 
-  .lui-star:hover {
+  .lui-star:hover .lui-star-pill {
     background: color-mix(in srgb, currentColor 16%, transparent);
     border-color: color-mix(in srgb, currentColor 24%, transparent);
     transform: scale(1.05);
   }
 
-  .lui-star:active {
+  .lui-star:active .lui-star-pill {
     transform: scale(0.97);
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .lui-star {
+    .lui-star-pill {
       transition: none;
     }
 
-    .lui-star:hover,
-    .lui-star:active {
+    .lui-star:hover .lui-star-pill,
+    .lui-star:active .lui-star-pill {
       transform: none;
     }
   }

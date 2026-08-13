@@ -86,8 +86,10 @@ import StarOnGithub from '@bay/landing-ui/components/StarOnGithub.astro';
 
 The pill styles itself from `currentColor` (surface at 8%, hairline at 14%,
 both lifting on hover), so it inherits the surrounding nav or footer text color
-and needs no tokens. Pass `class` only for spacing or responsive visibility —
-e.g. `class="hidden sm:inline-flex"` to match a hidden-on-mobile `BayjfLink`.
+and needs no tokens. The anchor sets neither `display` nor `color` — the box
+lives on an inner span — so host utilities stay in charge: pass `hidden
+sm:inline-flex` to match a hidden-on-mobile `BayjfLink`, and pass the same text
+color class its sibling links use so the tint matches them.
 
 ## Versioning
 
