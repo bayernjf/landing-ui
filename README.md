@@ -117,6 +117,10 @@ const fallback = releasesUrl('bayernjf/soft-desk');
 </script>
 ```
 
+`isSafari()` is there for extensions, which ship per browser rather than per OS:
+Chrome and Edge both end their UA with `Safari`, so real Safari can only be
+identified by exclusion. Pair it with a `{ chrome: ..., safari: ... }` matcher set.
+
 Each matcher value is a filename suffix, matched with `endsWith` — `.dmg` picks
 `App-arm64.dmg` and correctly skips `App-arm64.dmg.blockmap`. Only published
 releases are visible: `/releases/latest` excludes drafts and prereleases, so a

@@ -2,6 +2,8 @@ export declare function formatBytes(bytes: number): string;
 
 export declare function detectPlatform(): 'mac' | 'win' | 'unknown';
 
+export declare function isSafari(): boolean;
+
 export declare function releasesUrl(repo: string): string;
 
 export interface ReleaseAsset {
