@@ -13,6 +13,7 @@ framework-free Astro components. One source of truth instead of copy-pasted
 | `@bay/landing-ui/components/BayjfMark.astro` | The BayJF brand mark ("Shoreline Hook"), inline SVG, geometry identical to bayjf.com |
 | `@bay/landing-ui/components/BayjfLink.astro` | `BayjfMark` + "BayJF" label, linked to bayjf.com — the portfolio backlink every site carries |
 | `@bay/landing-ui/components/StarOnGithub.astro` | GitHub mark + "Star on GitHub" label as one pill, linked to that site's product repo |
+| `@bay/landing-ui/lib/releases` | Resolves the latest GitHub release's assets so download buttons can link the file directly instead of the releases page |
 
 ## Install
 
@@ -90,6 +91,38 @@ and needs no tokens. The anchor sets neither `display` nor `color` — the box
 lives on an inner span — so host utilities stay in charge: pass `hidden
 sm:inline-flex` to match a hidden-on-mobile `BayjfLink`, and pass the same text
 color class its sibling links use so the tint matches them.
+
+### Release downloads
+
+`lib/releases` turns a download button into a real download. Render the button
+with `releasesUrl(repo)` as its `href` so it always points somewhere valid, then
+swap in the concrete asset on the client:
+
+```astro
+---
+import { releasesUrl } from '@bay/landing-ui/lib/releases';
+const fallback = releasesUrl('bayernjf/soft-desk');
+---
+<a data-download-mac href={fallback}>Download for macOS</a>
+
+<script>
+  import { fetchLatestAssets, formatBytes } from '@bay/landing-ui/lib/releases';
+  const { assets, error } = await fetchLatestAssets('bayernjf/soft-desk', { mac: '.dmg', win: '.exe' });
+  if (assets.mac) {
+    document.querySelectorAll('[data-download-mac]').forEach((el) => {
+      el.setAttribute('href', assets.mac.url);
+      el.setAttribute('title', formatBytes(assets.mac.size));
+    });
+  }
+</script>
+```
+
+Each matcher value is a filename suffix, matched with `endsWith` — `.dmg` picks
+`App-arm64.dmg` and correctly skips `App-arm64.dmg.blockmap`. Only published
+releases are visible: `/releases/latest` excludes drafts and prereleases, so a
+product whose only release is still a draft returns `error: true` and the button
+stays on the fallback. Query the buttons with `querySelectorAll`, not an `id` —
+several sites render the download block twice on one page.
 
 ## Versioning
 
