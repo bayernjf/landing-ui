@@ -4,6 +4,9 @@
   "description": "Shared design system for *-landing sites: design tokens and Astro components",
   "type": "module",
   "license": "Apache-2.0",
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
   "exports": {
     "./styles/tokens.css": "./styles/tokens.css",
     "./components/Icon.astro": "./components/Icon.astro",
